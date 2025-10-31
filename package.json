@@ -1,0 +1,17 @@
+{
+  "name": "testes-com-ios",
+  "version": "1.0.0",
+  "description": "Projeto limpo para o teste iOS da EBAC",
+  "private": true,
+  "scripts": {
+    "wdio": "wdio run"
+  },
+  "devDependencies": {
+    "@wdio/appium-service": "^8.36.1",
+    "@wdio/cli": "^8.36.1",
+    "@wdio/local-runner": "^8.36.1",
+    "@wdio/mocha-framework": "^8.36.1",
+    "@wdio/spec-reporter": "^8.36.1",
+    "@wdio/sauce-service": "^8.36.1"
+  }
+}
