@@ -1,0 +1,42 @@
+# Nome do Workflow (aparecerá na aba "Actions" do GitHub)
+name: Executar Testes iOS no Sauce Labs
+
+# "Quando" este workflow deve rodar?
+on:
+  push:
+    # Rodar nas branches 'main' e 'ci' (como sugerido na tarefa)
+    branches: [ main, ci ]
+  # Permite rodar manualmente pela interface do GitHub
+  workflow_dispatch:
+
+jobs:
+  # Nome do "trabalho" que vamos executar
+  run-ios-tests:
+    # "Onde" vai rodar? Em uma máquina virtual Linux (Ubuntu)
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixar o código do seu repositório
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Configurar o ambiente Node.js
+      # (Seu README mencionou Node v20)
+      - name: Configurar Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Instalar as dependências do projeto
+      # (Vai ler seu package.json e package-lock.json)
+      - name: Instalar dependências
+        run: npm ci
+
+      # 4. Executar os testes do WebdriverIO
+      # (Este é o script do seu package.json)
+      - name: Rodar testes no Sauce Labs
+        env:
+          # "Como" passamos os segredos? Assim:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+        run: npm run wdio
