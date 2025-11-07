@@ -4,7 +4,8 @@
   "description": "Projeto limpo para o teste iOS da EBAC",
   "private": true,
   "scripts": {
-    "wdio": "wdio run"
+    "wdio": "wdio run ./wdio.conf.js"
+  }
   },
   "devDependencies": {
     "@wdio/appium-service": "^8.36.1",
