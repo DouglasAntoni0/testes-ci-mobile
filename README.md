@@ -1,38 +1,50 @@
-# Projeto de Teste iOS - EBAC Shop (Módulo 40)
+# Testes CI Mobile - iOS com Sauce Labs
 
-Este repositório contém a tentativa de automação do fluxo de compra para o aplicativo iOS da EBAC Shop, utilizando WebdriverIO, Appium e Sauce Labs, conforme solicitado na tarefa.
+![WebdriverIO](https://img.shields.io/badge/WebdriverIO-mobile%20CI-EA5906?style=for-the-badge&logo=webdriverio&logoColor=white)
+![Appium](https://img.shields.io/badge/Appium-iOS-472BDE?style=for-the-badge&logo=appium&logoColor=white)
+![Sauce Labs](https://img.shields.io/badge/Sauce%20Labs-cloud-E2231A?style=for-the-badge)
+![QA](https://img.shields.io/badge/QA-mobile%20quality-0A66C2?style=for-the-badge)
 
-## :warning: Estado do Projeto: INCOMPLETO (Bloqueado pela Qualidade do App)
+Projeto voltado à execução de testes mobile iOS em ambiente cloud, usando WebdriverIO, Appium, XCUITest e Sauce Labs. A branch `ci` registra uma configuração direcionada a execução remota e diagnóstico de testabilidade.
 
-O projeto está 100% configurado para ser executado na nuvem do Sauce Labs. A automação falha não por um erro de configuração nosso, mas sim pela **impossibilidade técnica de interagir com o aplicativo fornecido.**
+## O que este projeto demonstra
 
-### Prova de Configuração Funcional:
+| Competência | Evidência |
+| --- | --- |
+| Mobile CI | Configuração de execução remota em Sauce Labs |
+| iOS automation | Uso de XCUITest em simulador iPhone 13 / iOS 15.4 |
+| Gestão de credenciais | `SAUCE_USERNAME` e `SAUCE_ACCESS_KEY` via ambiente |
+| Diagnóstico técnico | Separação entre problema de configuração e limitação da aplicação alvo |
+| Comunicação de risco | Documentação clara sobre dependência de seletores estáveis |
 
-* O Node.js (v20) está funcional.
-* As dependências (WebdriverIO v8) estão instaladas e estáveis.
-* A ligação ao Sauce Labs está 100% funcional (o erro 401 foi resolvido).
-* O upload do aplicativo (`LojaEBAC-sim.zip`) para o Sauce Labs foi bem-sucedido.
-* O arranque do Simulador (`iPhone 13 Simulator`, iOS 15.4) no Sauce Labs está funcionando.
+## Estado técnico
 
-O teste **falha** porque é impossível localizar os elementos na tela.
+A automação está preparada para executar contra o app `LojaEBAC-sim.zip` no Sauce Labs. O principal risco identificado é a baixa testabilidade da aplicação alvo: ausência de identificadores estáveis, fluxo diferente do esperado e dificuldade de localizar elementos de forma confiável.
 
----
+Em um contexto profissional, esse diagnóstico orienta uma recomendação objetiva ao time de produto/desenvolvimento: expor `accessibilityId`, padronizar fluxo inicial e garantir elementos rastreáveis para automação.
 
-## Motivo da Falha: Qualidade e "Testability" Inaceitáveis do Aplicativo
+## Como executar
 
-Esta não é apenas uma frustração, é uma constatação técnica:
+```bash
+git clone https://github.com/DouglasAntoni0/testes-ci-mobile.git
+cd testes-ci-mobile
+git checkout ci
+npm install
+```
 
-1.  **Seletores Fracos, Instáveis e Imprevisíveis:** O aplicativo não expõe *nenhum* seletor estável (como `Accessibility IDs`). Os elementos são fracos, imprevisíveis e não-determinísticos.
-2. **Fluxo Incorreto:** As imagens da tarefa sugerem que o app abre na tela de Login. No entanto, os vídeos do Sauce Labs mostram que o app abre na tela "Home".
-3.  **Vai Contra as Boas Práticas:** A falta de seletores de teste (`data-testid` ou `accessibilityID`) vai contra tudo o que um verdadeiro engenheiro de QA ou desenvolvedor aprende. Um aplicativo sem "testability" (qualidade para o teste) é considerado "quebrado" por definição e inaceitável.
-Falha na Navegação: A tentativa de corrigir isto (adicionando um clique no botão ~Profile para navegar até ao Login) também falhou, como prova o log abaixo.
-4.  **Qualidade Incompatível com o Ensino:** A escola não criou um aplicativo de testes que preste. Este nível de qualidade não é profissional e demonstra uma falta de adesão às boas práticas que seriam esperadas até mesmo de um desenvolvedor em início de carreira.
-5.  **Falta Gritante de Otimização:** O fluxo do aplicativo (abrindo na "Home" em vez do "Login", ao contrário do que as imagens sugerem) é confuso.
-6.  **Problema Crónico:** Esta não é a primeira vez. Ja sofremos tentando fazer a mesma coisa nesse site deles" (a versão web), que apresentava exatamente os mesmos problemas de seletores fracos e instáveis.
+Configure as variáveis:
 
-**Conclusão:** Sem uma ferramenta de inspeção local (Appium Inspector) ou, mais importante, **seletores estáveis** fornecidos pela equipa de desenvolvimento, é **impossível** automatizar este aplicativo.
+```bash
+SAUCE_USERNAME=seu_usuario
+SAUCE_ACCESS_KEY=sua_chave
+```
 
+Execute:
 
-### Prova de Execução (Log da Falha)
+```bash
+npm run wdio
+```
 
-Este log (do último teste que executámos) prova que a configuração está correta, mas o seletor `~Profile` (a nossa última tentativa de adivinhar o fluxo) não foi encontrado.
+## Resultado técnico
+
+Este repositório puxa a discussão para um ponto de maturidade: automação mobile não é só escrever scripts. É avaliar ambiente, testabilidade, seletores, fluxo, execução cloud e qualidade da aplicação como produto testável.
